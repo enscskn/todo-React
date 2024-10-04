@@ -1,24 +1,16 @@
 import React from 'react'
-
-// React Icons
-import { IoMdRemoveCircleOutline } from 'react-icons/io'
-import { FaCheck } from 'react-icons/fa'
-import { FaRegEdit } from 'react-icons/fa'
-
-// CSS
-import '../css/ToDoList.css'
+import Todo from './Todo'
+import { useSelector } from 'react-redux'
+import { RootState } from '../redux/store';
+import { TodoType } from '../types/Types';
 
 function ToDoList() {
+  const { todos } = useSelector((state:RootState) => state.todo);
   return (
-    <div className='todo-list-container'>
-        <div className='todo-list'>
-            ilk todo
-        </div>
-        <div className='todo-list-edit-section'>
-            <IoMdRemoveCircleOutline className='todo-list-edit-section-icons'/>
-            <FaRegEdit className='todo-list-edit-section-icons'/>
-
-        </div>
+    <div>
+      {todos && todos.map((todo:TodoType) => (
+        <Todo key={todo.id}  todoProps = {todo}/>
+      ))}
     </div>
   )
 }

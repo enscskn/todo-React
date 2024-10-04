@@ -1,25 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { createTodo } from '../redux/todoSlice'
+import { TodoType } from '../types/Types';
 
 // CSS
 import '../css/ToDoCreate.css'
 
 function ToDoCreate() {
 
-    function createToDo() {
-        const input = document.querySelector('.todo-create-input') as HTMLInputElement
-        const value = input.value
-        if (value.trim() === '') {
-            alert('Lütfen geçerli bir görev giriniz.')
-            return
-        }
-        input.value = ''
-        alert('Görev başarıyla oluşturuldu.')
+  const dispatch = useDispatch();
+
+  const [newTodo, setNewTodo] = useState<string>('');
+
+  const handleCreateTodo = () => {
+    if (newTodo.trim().length == 0) {
+      alert('Görev İsmi Boş Olamaz!');
+      return;
     }
+
+    const payload:TodoType = {
+      id: Date.now(),
+      content: newTodo
+    }
+    dispatch(createTodo(payload));
+    setNewTodo('');
+  }
 
   return (
     <div className='todo-create-container'>
-        <input className='todo-create-input' type="text" placeholder='Sıradaki Görev Nedir?' />
-        <button className='todo-create-btn' onClick={createToDo}>Oluştur</button>
+        <input
+        value={newTodo} 
+        onChange={(e:React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
+        className='todo-create-input' 
+        type="text" 
+        placeholder='Sıradaki Görev Nedir?' />
+        <button className='todo-create-btn' onClick={handleCreateTodo}>Oluştur</button>
     </div>
   )
 }
