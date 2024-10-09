@@ -1,1 +1,1 @@
-# basic eCommerce app with react
+# basic todo app with react
